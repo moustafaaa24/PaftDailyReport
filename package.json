@@ -1,0 +1,25 @@
+{
+  "name": "it-daily-report-dashboard",
+  "version": "1.0.0",
+  "description": "Live IT infrastructure monitoring dashboard with Google Sheets integration",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "dashboard",
+    "monitoring",
+    "google-sheets",
+    "it-infrastructure"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

@@ -1,0 +1,644 @@
+/* Weekly Report Specific Styles */
+
+.loading-message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: var(--card-shadow);
+    margin: 20px 0;
+}
+
+.loading-message p {
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Summary Cards */
+.summary-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+}
+
+.summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.summary-card .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 15px;
+    padding: 25px;
+}
+
+.summary-icon {
+    font-size: 3rem;
+    opacity: 0.9;
+}
+
+.summary-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.summary-content h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+    text-align: center;
+}
+
+.summary-content p {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    text-align: center;
+}
+
+.summary-card.good {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+}
+
+.summary-card.warning {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    color: white;
+}
+
+.summary-card.info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    color: white;
+}
+
+.summary-card.primary {
+    background: linear-gradient(135deg, #1DB9E8 0%, #0A8AB8 100%);
+    color: white;
+}
+
+/* Issues List */
+.issues-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.issue-item {
+    padding: 15px;
+    background: #f8f9fa;
+    border-left: 4px solid var(--danger-red);
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.issue-item:hover {
+    background: #e9ecef;
+}
+
+.issue-item h6 {
+    margin: 0 0 5px 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.issue-item p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.issue-count {
+    display: inline-block;
+    background: var(--danger-red);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+/* Insights List */
+.insights-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.insight-item {
+    padding: 15px;
+    background: #e7f3ff;
+    border-left: 4px solid var(--primary-cyan);
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.insight-item:hover {
+    background: #d0e9ff;
+}
+
+.insight-item i {
+    color: var(--primary-cyan);
+    margin-right: 8px;
+}
+
+.insight-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+/* Daily Breakdown */
+.daily-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.day-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    transition: box-shadow 0.3s;
+}
+
+.day-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-cyan);
+}
+
+.day-header h6 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.day-status {
+    display: flex;
+    gap: 10px;
+}
+
+.day-status .badge {
+    padding: 5px 12px;
+    font-size: 0.85rem;
+}
+
+.day-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.day-metric {
+    display: flex;
+    flex-direction: column;
+}
+
+.day-metric label {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.day-metric label i {
+    margin-right: 5px;
+    font-size: 0.9rem;
+}
+
+.day-metric span {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.day-metric span.text-primary {
+    color: #1DB9E8 !important;
+}
+
+.day-metric span.text-danger {
+    color: #dc3545 !important;
+}
+
+.day-metric span.text-info {
+    color: #17a2b8 !important;
+}
+
+.day-metric span.text-success {
+    color: #28a745 !important;
+}
+
+/* System Status Table */
+#systemStatusTable {
+    font-size: 0.95rem;
+}
+
+#systemStatusTable thead {
+    background: var(--light-cyan);
+}
+
+#systemStatusTable tbody tr:hover {
+    background: var(--light-cyan);
+}
+
+.uptime-bar {
+    width: 100%;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.uptime-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+    transition: width 0.3s;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .summary-card .card-body {
+        padding: 20px;
+        gap: 12px;
+    }
+    
+    .summary-icon {
+        font-size: 2.5rem;
+    }
+    
+    .summary-content h3 {
+        font-size: 1.5rem;
+    }
+    
+    .summary-content p {
+        font-size: 0.85rem;
+    }
+    
+    .day-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .summary-card .card-body {
+        padding: 15px;
+        gap: 10px;
+    }
+    
+    .summary-icon {
+        font-size: 2rem;
+    }
+    
+    .summary-content h3 {
+        font-size: 1.3rem;
+    }
+    
+    .summary-content p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Print Styles for Weekly Report */
+@media print {
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+    
+    body {
+        background: white;
+        padding: 0;
+    }
+    
+    .dashboard-header {
+        border-radius: 0;
+        margin-bottom: 10px;
+        padding: 10px 15px;
+    }
+    
+    .btn-refresh,
+    .btn-print,
+    .btn-primary,
+    .btn-secondary {
+        display: none !important;
+    }
+    
+    .loading-message {
+        display: none !important;
+    }
+    
+    .dashboard-grid {
+        gap: 10px;
+    }
+    
+    .dashboard-section {
+        page-break-inside: avoid;
+        margin-bottom: 10px;
+    }
+    
+    .summary-card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    .status-card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        page-break-inside: avoid;
+    }
+    
+    .card-body {
+        padding: 10px;
+    }
+    
+    canvas {
+        max-height: 200px !important;
+    }
+    
+    .day-card {
+        page-break-inside: avoid;
+        border: 1px solid #ddd;
+    }
+    
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Bins Overview Table Styling */
+#binsOverviewTable {
+    font-size: 0.95rem;
+}
+
+#binsOverviewTable thead {
+    background: var(--light-cyan);
+}
+
+#binsOverviewTable thead th {
+    text-align: center;
+    font-weight: 600;
+    padding: 12px 8px;
+}
+
+#binsOverviewTable thead th:first-child {
+    text-align: left;
+}
+
+#binsOverviewTable tbody td {
+    text-align: center;
+    padding: 12px 8px;
+    vertical-align: middle;
+}
+
+#binsOverviewTable tbody td:first-child {
+    text-align: left;
+}
+
+#binsOverviewTable tbody tr:hover {
+    background: var(--light-cyan);
+}
+
+#binsOverviewTable .badge {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    min-width: 40px;
+}
+
+#binsOverviewTable tbody td:last-child {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-dark);
+}
+
+
+/* WiFi Usage Chart Adjustments */
+.dashboard-section:last-child .status-card {
+    min-height: 380px;
+}
+
+.dashboard-section:last-child .card-body {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-section:last-child .card-body canvas {
+    width: 100% !important;
+    height: 300px !important;
+    max-height: 300px;
+}
+
+/* Weekly Summary Table */
+#weeklySummaryTable {
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+#weeklySummaryTable thead {
+    background: var(--light-cyan);
+}
+
+#weeklySummaryTable thead th {
+    font-weight: 600;
+    padding: 12px;
+    border-bottom: 2px solid var(--primary-cyan);
+}
+
+#weeklySummaryTable tbody tr {
+    transition: background 0.2s;
+}
+
+#weeklySummaryTable tbody tr:hover {
+    background: var(--light-cyan);
+}
+
+#weeklySummaryTable tbody td {
+    padding: 10px 12px;
+    vertical-align: middle;
+}
+
+#weeklySummaryTable tbody td:first-child {
+    font-weight: 500;
+}
+
+#weeklySummaryTable tbody td:last-child {
+    text-align: right;
+    font-size: 1.05rem;
+}
+
+/* Row color coding */
+#weeklySummaryTable tr.info td:first-child {
+    border-left: 4px solid #17a2b8;
+}
+
+#weeklySummaryTable tr.danger td:first-child {
+    border-left: 4px solid #dc3545;
+}
+
+#weeklySummaryTable tr.warning td:first-child {
+    border-left: 4px solid #ffc107;
+}
+
+#weeklySummaryTable tr.success td:first-child {
+    border-left: 4px solid #28a745;
+}
+
+#weeklySummaryTable tr.primary td:first-child {
+    border-left: 4px solid #1DB9E8;
+}
+
+#weeklySummaryTable tr.sub td:first-child {
+    padding-left: 30px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+#weeklySummaryTable tr.sub td:first-child::before {
+    content: '';
+    display: none;
+}
+
+#weeklySummaryTable tr.sub {
+    background: #f8f9fa;
+}
+
+/* Adjust WiFi chart for split layout */
+.dashboard-section:last-child .col-lg-6 .status-card {
+    min-height: 380px;
+}
+
+.dashboard-section:last-child .col-lg-6 .card-body {
+    padding: 20px;
+}
+
+.dashboard-section:last-child .col-lg-6 canvas {
+    max-height: 280px !important;
+}
+
+/* Summary Tabs Styling */
+.summary-tabs {
+    border-bottom: 2px solid var(--primary-cyan);
+    margin-bottom: 15px;
+}
+
+.summary-tabs .nav-link {
+    color: #666;
+    border: none;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    border-bottom: 3px solid transparent;
+}
+
+.summary-tabs .nav-link:hover {
+    color: var(--primary-cyan);
+    background: rgba(29, 185, 232, 0.05);
+}
+
+.summary-tabs .nav-link.active {
+    color: var(--primary-cyan);
+    background: rgba(29, 185, 232, 0.1);
+    border-bottom: 3px solid var(--primary-cyan);
+}
+
+.summary-tabs .nav-link i {
+    margin-right: 5px;
+    font-size: 0.85rem;
+}
+
+.summary-tab-content {
+    padding-top: 10px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+/* Services, VM, Forklifts, Security Tables */
+#servicesTable,
+#vmTable,
+#forkliftsTable,
+#securityTable {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+#servicesTable thead,
+#vmTable thead,
+#forkliftsTable thead,
+#securityTable thead {
+    background: var(--light-cyan);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+#servicesTable thead th,
+#vmTable thead th,
+#forkliftsTable thead th,
+#securityTable thead th {
+    font-weight: 600;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--primary-cyan);
+}
+
+#servicesTable tbody tr:hover,
+#vmTable tbody tr:hover,
+#forkliftsTable tbody tr:hover,
+#securityTable tbody tr:hover {
+    background: var(--light-cyan);
+}
+
+#servicesTable tbody td,
+#vmTable tbody td,
+#forkliftsTable tbody td,
+#securityTable tbody td {
+    padding: 10px 12px;
+    vertical-align: middle;
+}
+
+#servicesTable tbody td:last-child,
+#vmTable tbody td:last-child,
+#forkliftsTable tbody td:last-child,
+#securityTable tbody td:last-child {
+    text-align: right;
+}
+
+/* Responsive tabs */
+@media (max-width: 768px) {
+    .summary-tabs .nav-link {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+    
+    .summary-tabs .nav-link i {
+        display: none;
+    }
+}

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Weekly Report Dashboard</title>
+    <link rel="icon" type="image/webp" href="logo.webp">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="weekly-styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
+                    <img src="logo.webp" alt="PAFT Logo" class="company-logo">
+                    <h1 class="dashboard-title">IT Working Week Report</h1>
+                </div>
+                <div class="header-controls">
+                    <div class="date-display">
+                        <i class="fas fa-calendar-week"></i>
+                        <span id="weekRange">Last 5 Days</span>
+                    </div>
+                    <button class="btn btn-secondary" onclick="window.location.href='index.html'">
+                        <i class="fas fa-calendar-day"></i> Daily Report
+                    </button>
+                    <button class="btn btn-print" onclick="printReport()">
+                        <i class="fas fa-print"></i> Print PDF
+                    </button>
+                    <button class="btn btn-refresh" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Loading Message -->
+        <div id="loadingMessage" class="loading-message">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Loading weekly data...</p>
+        </div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid" id="dashboardGrid" style="display: none;">
+            <!-- Summary Cards -->
+            <div class="dashboard-section">
+                <div class="row g-3">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card summary-card primary">
+                            <div class="card-body">
+                                <div class="summary-icon">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <h3 id="latestEnterLock">--</h3>
+                                    <p>Damaged Enterlock Bins</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card summary-card warning">
+                            <div class="card-body">
+                                <div class="summary-icon">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <h3 id="latestSpringRepair">--</h3>
+                                    <p>Spring Repair</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card summary-card info">
+                            <div class="card-body">
+                                <div class="summary-icon">
+                                    <i class="fas fa-barcode"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <h3 id="latestScanningIssue">--</h3>
+                                    <p>Scanning Issues</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card summary-card good">
+                            <div class="card-body">
+                                <div class="summary-icon">
+                                    <i class="fas fa-fill-drip"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <h3 id="latestCement">--</h3>
+                                    <p>Need Cement</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bins Trends Section -->
+            <div class="dashboard-section">
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-chart-line"></i> Damaged Enterlock Bins Trend</h5>
+                                <canvas id="enterLockTrendChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-chart-area"></i> Row Material Issues Trend</h5>
+                                <canvas id="rowMaterialTrendChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WiFi Usage & Summary Section -->
+            <div class="dashboard-section">
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-wifi"></i> WiFi Usage by Day</h5>
+                                <canvas id="wifiUsageChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-table"></i> Weekly Summary</h5>
+                                
+                                <!-- Nav Tabs -->
+                                <ul class="nav nav-tabs summary-tabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="overview-tab" onclick="switchTab('overview')" type="button" role="tab">
+                                            <i class="fas fa-chart-bar"></i> Overview
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="services-tab" onclick="switchTab('services')" type="button" role="tab">
+                                            <i class="fas fa-cogs"></i> Services
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="vm-tab" onclick="switchTab('vm')" type="button" role="tab">
+                                            <i class="fas fa-server"></i> VM
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="forklifts-tab" onclick="switchTab('forklifts')" type="button" role="tab">
+                                            <i class="fas fa-truck"></i> Forklifts
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="security-tab" onclick="switchTab('security')" type="button" role="tab">
+                                            <i class="fas fa-shield-alt"></i> Security
+                                        </button>
+                                    </li>
+                                </ul>
+                                
+                                <!-- Tab Content -->
+                                <div class="tab-content summary-tab-content">
+                                    <!-- Overview Tab -->
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover" id="weeklySummaryTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Metric</th>
+                                                        <th>Value</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Services Tab -->
+                                    <div class="tab-pane fade" id="services" role="tabpanel">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover" id="servicesTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Service</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- VM Tab -->
+                                    <div class="tab-pane fade" id="vm" role="tabpanel">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover" id="vmTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Virtual Machine</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Forklifts Tab -->
+                                    <div class="tab-pane fade" id="forklifts" role="tabpanel">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover" id="forkliftsTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Forklift Type</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Security Tab -->
+                                    <div class="tab-pane fade" id="security" role="tabpanel">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover" id="securityTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Security Screen</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="weekly-report.js"></script>
+</body>
+</html>

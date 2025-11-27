@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Daily Report Dashboard</title>
+    <link rel="icon" type="image/webp" href="logo.webp">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
+                    <img src="logo.webp" alt="PAFT Logo" class="company-logo">
+                    <h1 class="dashboard-title">IT Daily Report Dashboard</h1>
+                </div>
+                <div class="header-controls">
+                    <div class="date-filter">
+                        <label for="dateFilter" class="me-2">Filter by Date:</label>
+                        <input type="date" id="dateFilter" class="form-control form-control-sm" onchange="filterByDate()">
+                        <button class="btn btn-sm btn-danger ms-2" onclick="clearDateFilter()" title="Clear Filter">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="date-display">
+                        <i class="fas fa-calendar-day"></i>
+                        <span id="dateRelative">Today</span>
+                    </div>
+                    <button class="btn btn-weekly" onclick="window.location.href='weekly-report.html'">
+                        <i class="fas fa-calendar-week"></i> Weekly
+                    </button>
+                    <button class="btn btn-print" onclick="printReport()">
+                        <i class="fas fa-print"></i> Print PDF
+                    </button>
+                    <button class="btn btn-refresh" onclick="refreshData()" title="Refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- No Data Message -->
+        <div id="noDataMessage" class="no-data-message" style="display: none;">
+            <div class="no-data-content">
+                <i class="fas fa-calendar-times"></i>
+                <h2>This Date Is Still Pending</h2>
+                <p>No data available for the selected date. Please choose another date or check back later.</p>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid" id="dashboardGrid">
+            <!-- Row 1: Routers -->
+            <div class="dashboard-section">
+                <div class="section-container">
+                    <h3 class="section-title"><i class="fas fa-network-wired"></i> Routers</h3>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="card status-card">
+                                <div class="card-body text-center">
+                                    <h5>Router 1</h5>
+                                    <canvas id="router1Chart"></canvas>
+                                    <p class="mt-2 mb-0" id="router1Status">--</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card status-card">
+                                <div class="card-body text-center">
+                                    <h5>Router 2</h5>
+                                    <canvas id="router2Chart"></canvas>
+                                    <p class="mt-2 mb-0" id="router2Status">--</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card status-card">
+                                <div class="card-body text-center">
+                                    <h5>Router 3</h5>
+                                    <canvas id="router3Chart"></canvas>
+                                    <p class="mt-2 mb-0" id="router3Status">--</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: WiFi Coverage & Speed -->
+            <div class="dashboard-section">
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-wifi"></i> Wi-Fi Coverage</h5>
+                                <div id="wifiCoverage" class="wifi-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-tachometer-alt"></i> Wi-Fi Speed</h5>
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <div class="speed-card upload">
+                                            <i class="fas fa-arrow-up"></i>
+                                            <h3 id="uploadSpeed">--</h3>
+                                            <p>Upload</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="speed-card download">
+                                            <i class="fas fa-arrow-down"></i>
+                                            <h3 id="downloadSpeed">--</h3>
+                                            <p>Download</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3: Virtual Machines & Row Materials -->
+            <div class="dashboard-section">
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-server"></i> Virtual Machines</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="vmTable">
+                                        <thead>
+                                            <tr>
+                                                <th>System</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card status-card">
+                            <div class="card-body text-center">
+                                <h5 class="card-title"><i class="fas fa-chart-pie"></i> Row Materials</h5>
+                                <canvas id="rowMaterialsChart"></canvas>
+                                <p class="mt-2" id="rowMaterialsTotal">--</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 4: Forklifts & Gates -->
+            <div class="dashboard-section">
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-truck"></i> Forklifts Services</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-sm" id="forkliftTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-door-open"></i> Gates</h5>
+                                <div id="gatesStatus" class="status-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 5: Cameras & Server Room -->
+            <div class="dashboard-section">
+                <div class="row g-3">
+                    <!-- <div class="col-lg-4">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title">📹 Cameras</h5>
+                                <div class="camera-stats">
+                                    <div class="stat-item good">
+                                        <i class="bi bi-camera-video"></i>
+                                        <div>
+                                            <h3 id="camerasWorking">--</h3>
+                                            <p>Working</p>
+                                        </div>
+                                    </div>
+                                    <div class="stat-item bad">
+                                        <i class="bi bi-camera-video-off"></i>
+                                        <div>
+                                            <h3 id="camerasDown">--</h3>
+                                            <p>Down</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-lg-12">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-database"></i> Server Room</h5>
+                                <div id="serverRoom" class="status-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 6: Additional Services -->
+            <div class="dashboard-section">
+                <div class="row g-3">
+                    <div class="col-lg-4">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-mobile-alt"></i> WhatsApp & Charging</h5>
+                                <div id="servicesStatus" class="status-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card status-card">
+                            <div class="card-body text-center">
+                                <h5 class="card-title"><i class="fas fa-box"></i> Bins in EnterLock WH</h5>
+                                <canvas id="binsChart"></canvas>
+                                <p class="mt-2" id="binsStatus">--</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card status-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-shield-alt"></i> Security Screens</h5>
+                                <div id="securityScreens" class="status-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="app-multi-sheet.js"></script>
+</body>
+</html>
